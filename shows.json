@@ -1,0 +1,16 @@
+{
+  "roku_ip": "192.168.1.50",
+  "refresh_seconds": 120,
+  "boot_seconds": 6,
+  "keys": [
+    { "action": "power", "color": "#FF0000" },
+    { "action": "playpause", "color": "#FFFFFF" },
+    { "action": "launch", "app": "netflix", "content_id": "80232398", "type": "series", "color": "#C8A2C8", "select_delay": 8 },
+    { "action": "launch", "app": "hulu", "content_id": "american-dad-977c8e25-cde0-41b7-80ce-e746f2d2093f", "type": "series", "color": "#1CE783", "select_delay": 10 },
+
+    { "action": "launch", "app": "netflix", "content_id": "00000000", "type": "movie", "color": "#0066FF", "select_delay": 8 },
+    { "action": "launch", "app": "netflix", "content_id": "00000000", "type": "series", "color": "#FF8800", "select_delay": 8 },
+    { "action": "launch", "app": "netflix", "content_id": "00000000", "type": "series", "color": "#FF00AA", "select_delay": 8 },
+    { "action": "launch", "app": "netflix", "content_id": "00000000", "type": "series", "color": "#FFDD00", "select_delay": 8 }
+  ]
+}
