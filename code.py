@@ -31,6 +31,13 @@ APP_IDS = {
     "hulu": 2285,
     "disney": 291097,
     "youtube": 837,
+    "youtube_tv": 195316,
+    "paramount_plus": 31051,
+    "spotify": 19977,
+    "prime_video": 13,
+    "appletv": 551012,
+    "peacock": 593099,
+    "hbo_max": 61322
 }
 DEFAULT_REFRESH_SECONDS = 120
 
