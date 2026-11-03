@@ -35,7 +35,7 @@ APP_IDS = {
     "paramount_plus": 31051,
     "spotify": 19977,
     "prime_video": 13,
-    "appletv": 551012,
+    "apple_tv": 551012,
     "peacock": 593099,
     "hbo_max": 61322
 }
