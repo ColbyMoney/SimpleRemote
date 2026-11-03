@@ -5,12 +5,12 @@
   "keys": [
     { "action": "power", "color": "#FF0000" },
     { "action": "playpause", "color": "#FFFFFF" },
-    { "action": "launch", "app": "netflix", "content_id": "80232398", "type": "series", "color": "#C8A2C8", "select_delay": 8 },
-    { "action": "launch", "app": "hulu", "content_id": "american-dad-977c8e25-cde0-41b7-80ce-e746f2d2093f", "type": "series", "color": "#1CE783", "select_delay": 10 },
+    { "action": "launch", "app": "netflix", "content_title": "Bridgerton","content_id": "80232398", "type": "series", "color": "#C8A2C8", "select_delay": 10 },
+    { "action": "launch", "app": "hulu", "content_title": "New Girl", "content_id": "42850dbc-0f98-4d8a-a09a-3427ee8085e5", "type": "series", "color": "#1CE783", "select_delay": 10 },
 
-    { "action": "launch", "app": "netflix", "content_id": "00000000", "type": "movie", "color": "#0066FF", "select_delay": 8 },
-    { "action": "launch", "app": "netflix", "content_id": "00000000", "type": "series", "color": "#FF8800", "select_delay": 8 },
-    { "action": "launch", "app": "netflix", "content_id": "00000000", "type": "series", "color": "#FF00AA", "select_delay": 8 },
-    { "action": "launch", "app": "netflix", "content_id": "00000000", "type": "series", "color": "#FFDD00", "select_delay": 8 }
+    { "action": "launch", "app": "netflix", "content_title": "Remarkably Bright Creatures", "content_id": "81911351", "type": "movie", "color": "#0066FF", "select_delay": 10 },
+    { "action": "launch", "app": "hulu", "content_title": "The Golden Girls", "content_id": "a6e5db1c-ab70-451d-8b8c-2fba9ea29248", "type": "series", "color": "#FF8800", "select_delay": 10 },
+    { "action": "launch", "app": "netflix", "content_title": "Nobody Wants This", "content_id": "81591296", "type": "series", "color": "#FF00AA", "select_delay": 10 },
+    { "action": "launch", "app": "netflix", "content_title": "Seinfeld", "content_id": "70153373", "type": "series", "color": "#FFDD00", "select_delay": 10 }
   ]
 }

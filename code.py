@@ -29,7 +29,7 @@ CACHE_FILE = "/config_cache.json"
 APP_IDS = {
     "netflix": 12,
     "hulu": 2285,
-    "disney": 291097,
+    "disney_plus": 291097,
     "youtube": 837,
     "youtube_tv": 195316,
     "paramount_plus": 31051,
@@ -201,7 +201,7 @@ def do_key(i):
         if not app_id:
             fail(i)
             return
-        content_id = k.get("content_id", k.get("title", ""))
+        content_id = k.get("content_id", "")
         # Wake the Roku (and the TV, if HDMI-CEC / Anynet+ is on), then launch.
         roku_post("/keypress/PowerOn")
         blink(i, color, config.get("boot_seconds", 6))
