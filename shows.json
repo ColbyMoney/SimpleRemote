@@ -1,16 +1,149 @@
 {
   "roku_ip": "192.168.1.50",
   "refresh_seconds": 120,
-  "boot_seconds": 6,
+  "boot_seconds": 10,
   "keys": [
-    { "action": "power", "color": "#FF0000" },
-    { "action": "playpause", "color": "#FFFFFF" },
-    { "action": "launch", "app": "netflix", "content_title": "Bridgerton","content_id": "80232398", "type": "series", "color": "#C8A2C8", "select_delay": 10 },
-    { "action": "launch", "app": "hulu", "content_title": "New Girl", "content_id": "42850dbc-0f98-4d8a-a09a-3427ee8085e5", "type": "series", "color": "#1CE783", "select_delay": 10 },
-
-    { "action": "launch", "app": "netflix", "content_title": "Remarkably Bright Creatures", "content_id": "81911351", "type": "movie", "color": "#0066FF", "select_delay": 10 },
-    { "action": "launch", "app": "hulu", "content_title": "The Golden Girls", "content_id": "a6e5db1c-ab70-451d-8b8c-2fba9ea29248", "type": "series", "color": "#FF8800", "select_delay": 10 },
-    { "action": "launch", "app": "netflix", "content_title": "Nobody Wants This", "content_id": "81591296", "type": "series", "color": "#FF00AA", "select_delay": 10 },
-    { "action": "launch", "app": "netflix", "content_title": "Seinfeld", "content_id": "70153373", "type": "series", "color": "#FFDD00", "select_delay": 10 }
+    {
+      "label": "Power",
+      "action": "power",
+      "color": "#FF0000"
+    },
+    {
+      "label": "Play / Pause",
+      "action": "playpause",
+      "color": "#FFFFFF"
+    },
+    {
+      "label": "Rewind (back ~10 sec)",
+      "action": "key",
+      "key_name": "InstantReplay",
+      "color": "#FFFFFF"
+    },
+    {
+      "label": "OK / Continue",
+      "action": "key",
+      "key_name": "Select",
+      "color": "#FFFFFF"
+    },
+    {
+      "slot": 1,
+      "content_name": "Bridgerton",
+      "action": "launch",
+      "app": "netflix",
+      "content_id": "80232398",
+      "type": "series",
+      "color": "#C8A2C8",
+      "select_delay": 10
+    },
+    {
+      "slot": 2,
+      "content_name": "New Girl",
+      "action": "launch",
+      "app": "hulu",
+      "content_id": "42850dbc-0f98-4d8a-a09a-3427ee8085e5",
+      "type": "series",
+      "color": "#1CE783",
+      "select_delay": 10
+    },
+    {
+      "slot": 3,
+      "content_name": "Remarkably Bright Creatures",
+      "action": "launch",
+      "app": "netflix",
+      "content_id": "81911351",
+      "type": "movie",
+      "color": "#0066FF",
+      "select_delay": 10
+    },
+    {
+      "slot": 4,
+      "content_name": "The Golden Girls",
+      "action": "launch",
+      "app": "hulu",
+      "content_id": "a6e5db1c-ab70-451d-8b8c-2fba9ea29248",
+      "type": "series",
+      "color": "#FF8800",
+      "select_delay": 10
+    },
+    {
+      "slot": 5,
+      "content_name": "Nobody Wants This",
+      "action": "launch",
+      "app": "netflix",
+      "content_id": "81591296",
+      "type": "series",
+      "color": "#FF00AA",
+      "select_delay": 10
+    },
+    {
+      "slot": 6,
+      "content_name": "Seinfeld",
+      "action": "launch",
+      "app": "netflix",
+      "content_id": "70153373",
+      "type": "series",
+      "color": "#FFDD00",
+      "select_delay": 10
+    },
+    {
+      "slot": 7,
+      "content_name": "(empty)",
+      "action": "none",
+      "app": "netflix",
+      "content_id": "",
+      "type": "series",
+      "color": "#00CED1",
+      "select_delay": 10
+    },
+    {
+      "slot": 8,
+      "content_name": "(empty)",
+      "action": "none",
+      "app": "netflix",
+      "content_id": "",
+      "type": "series",
+      "color": "#8A2BE2",
+      "select_delay": 10
+    },
+    {
+      "slot": 9,
+      "content_name": "(empty)",
+      "action": "none",
+      "app": "netflix",
+      "content_id": "",
+      "type": "series",
+      "color": "#7CFC00",
+      "select_delay": 10
+    },
+    {
+      "slot": 10,
+      "content_name": "(empty)",
+      "action": "none",
+      "app": "netflix",
+      "content_id": "",
+      "type": "series",
+      "color": "#FF7F50",
+      "select_delay": 10
+    },
+    {
+      "slot": 11,
+      "content_name": "(empty)",
+      "action": "none",
+      "app": "netflix",
+      "content_id": "",
+      "type": "series",
+      "color": "#00BFFF",
+      "select_delay": 10
+    },
+    {
+      "slot": 12,
+      "content_name": "(empty)",
+      "action": "none",
+      "app": "netflix",
+      "content_id": "",
+      "type": "series",
+      "color": "#D2B48C",
+      "select_delay": 10
+    }
   ]
 }

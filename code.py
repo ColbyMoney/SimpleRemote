@@ -30,10 +30,9 @@ APP_IDS = {
     "netflix": 12,
     "hulu": 2285,
     "disney_plus": 291097,
-    "youtube": 837,
     "youtube_tv": 195316,
-    "paramount_plus": 31051,
-    "spotify": 19977,
+    "paramount_plus": 31440,
+    "spotify": 22297,
     "prime_video": 13,
     "apple_tv": 551012,
     "peacock": 593099,
@@ -50,7 +49,7 @@ except AttributeError:
 # 1 = a single NeoKey 1x4 plugged straight into the board.
 # 2 = two NeoKey 1x4s, each on its own port of an I2C multiplexer (TCA9548A).
 # Set NEOKEY_COUNT in settings.toml. Keys 0-3 are the first pad, keys 4-7 the second.
-NEOKEY_COUNT = int(os.getenv("NEOKEY_COUNT", "1"))
+NEOKEY_COUNT = int(os.getenv("NEOKEY_COUNT", "4"))
 
 if NEOKEY_COUNT == 1:
     pads = [NeoKey1x4(i2c, addr=0x30)]
@@ -214,7 +213,7 @@ def do_key(i):
         if not roku_post(path):
             fail(i)
             return
-        blink(i, color, k.get("select_delay", 8))
+        blink(i, color, k.get("select_delay", 10))
         # Usually one Select presses the pre-focused Play / Resume. Some apps need
         # more (profile picker, "Resume or Start Over"), so each key can override.
         for key_name in k.get("post_keys", ["Select"]):
@@ -222,6 +221,13 @@ def do_key(i):
             time.sleep(1.5)
         apply_idle_colors()
         set_key(i, color)  # leave the active show lit
+    elif action == "key":
+        # Press any Roku remote key: Select, Home, Back, InstantReplay, Rev, Play...
+        key_name = k.get("key_name", "")
+        if not key_name or not roku_post("/keypress/" + key_name):
+            fail(i)
+        time.sleep(0.4)
+        apply_idle_colors()
     elif action == "playpause":
         ok = roku_post("/keypress/Play")
         if not ok:
