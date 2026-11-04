@@ -90,12 +90,35 @@ def launch_item(item, config, roku):
         print("  unknown app %r; add it to APP_IDS or set app_id" % item.get("app"))
         return
     content_id = item.get("content_id", "")
-    path = "/launch/%s" % app_id
-    if content_id:
-        path += "?contentId=%s&mediaType=%s" % (content_id, item.get("type"))
-    if not roku.post(path):
-        print("  launch failed (key would flash red)")
-        return
+    if item.get("app") == "youtube_tv":
+        path = "/launch/%s" % app_id
+        if content_id:
+            path += "?contentId=%s&mediaType=%s" % (content_id, item.get("type", "series"))
+        if not roku.post(path):
+            print("  launch failed (key would flash red)")
+            return
+        pause(item.get("select_delay", 5), roku.dry_run)
+        try:
+            downs = int(content_id)
+        except (ValueError, TypeError):
+            print("  youtube_tv needs content_id to be a number (key would flash red)")
+            return
+        gap = item.get("nav_delay", 0.25)
+        roku.post("/keypress/Right")
+        pause(item.get("guide_load_delay", 5), roku.dry_run)
+        for _ in range(downs):
+            roku.post("/keypress/Down")
+            pause(gap, roku.dry_run)
+        roku.post("/keypress/Select")
+        pause(gap, roku.dry_run)
+    else:
+        # Normal deep link. Put any needed URL encoding (like %3A) in content_id itself.
+        path = "/launch/%s" % app_id
+        if content_id:
+            path += "?contentId=%s&mediaType=%s" % (content_id, item.get("type", "series"))
+        if not roku.post(path):
+            print("  launch failed (key would flash red)")
+            return
 
 
 def change_channel(step, config, roku):

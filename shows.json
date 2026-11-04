@@ -5,7 +5,7 @@
   "channel_settle_seconds": 2.5,
   "keys": [
     { "label": "Power", "action": "power", "color": "#FF0000" },
-    { "label": "News", "action": "playpause", "color": "#FFFFFF" },
+    { "label": "Jazz", "action": "playpause", "color": "#FFFFFF" },
     { "label": "Channel Up", "action": "channel_up", "color": "#00C853" },
     { "label": "Channel Down", "action": "channel_down", "color": "#2979FF" },
 
@@ -15,8 +15,14 @@
     { "label": "Volume Down", "action": "key", "key_name": "VolumeDown", "color": "#FFB300" }
   ],
   "channels": [
-    { "app": "youtube_tv", "content_name": "Fox 4 News", "content_id": "3", "type": "live", "color": "#FF0000", "select_delay": 10 },
-    { "app": "youtube_tv", "content_name": "TBS", "content_id": "15", "type": "live", "color": "#FF0000", "select_delay": 10 },
+    { "app": "youtube_tv", "content_name": "Fox 4 News", "content_id": "3", "type": "live", "color": "#FF0000", "select_delay": 15 },
+    { "app": "youtube_tv", "content_name": "Game Show Network", "content_id": "105", "type": "live", "color": "#FF0000", "select_delay": 15 },
+    { "app": "youtube_tv", "content_name": "Magnolia Network", "content_id": "95", "type": "live", "color": "#FF0000", "select_delay": 15 },
+    { "app": "youtube_tv", "content_name": "HGTV", "content_id": "96", "type": "live", "color": "#FF0000", "select_delay": 15 },
+    { "app": "youtube_tv", "content_name": "Paramount", "content_id": "77", "type": "live", "color": "#FF0000", "select_delay": 15 },
+    { "app": "youtube_tv", "content_name": "TBS", "content_id": "15", "type": "live", "color": "#FF0000", "select_delay": 15 },
+    { "app": "youtube_tv", "content_name": "Hallmark Channel", "content_id": "67", "type": "live", "color": "#FF0000", "select_delay": 15 },
+    { "app": "youtube_tv", "content_name": "Comedy.tv", "content_id": "61", "type": "live", "color": "#FF0000", "select_delay": 15 },
     { "app": "netflix", "content_name": "Inside the Mind of a Cat", "content_id": "81447086", "type": "movie", "color": "#C8A2C8", "select_delay": 10 },
     { "app": "netflix", "content_name": "Cat People", "content_id": "81173728", "type": "series", "color": "#C8A2C8", "select_delay": 10 },
     { "app": "netflix", "content_name": "The Hidden Lives of Pets", "content_id": "81318943", "type": "series", "color": "#FF00AA", "select_delay": 10 },

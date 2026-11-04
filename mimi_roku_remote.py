@@ -224,12 +224,33 @@ def launch_item(i, item, keep_lit=False):
     # Wake the Roku (and the TV, if HDMI-CEC / Anynet+ is on), then launch.
     roku_post("/keypress/PowerOn")
     blink(i, color, config.get("boot_seconds", 6))
-    path = "/launch/%s" % app_id
-    if content_id:
-        path += "?contentId=%s&mediaType=%s" % (content_id, item.get("type", "series"))
-    if not roku_post(path):
-        fail(i)
-        return
+    if item.get("app") == "youtube_tv":
+        # No deep link: open the app, press Right once, then Down content_id times, then select the channel
+        if not roku_post("/launch/%s" % app_id):
+            fail(i)
+            return
+        blink(i, color, item.get("select_delay", 8))
+        try:
+            downs = int(content_id)
+        except (ValueError, TypeError):
+            fail(i)
+            return
+        gap = item.get("nav_delay", 0.6)
+        roku_post("/keypress/Right")
+        time.sleep(gap)
+        for _ in range(downs):
+            roku_post("/keypress/Down")
+            time.sleep(gap)
+        roku_post("/keypress/Select")
+        time.sleep(gap)
+    else:
+        # Normal deep link. Put any needed URL encoding (like %3A) in content_id itself.
+        path = "/launch/%s" % app_id
+        if content_id:
+            path += "?contentId=%s&mediaType=%s" % (content_id, item.get("type", "series"))
+        if not roku_post(path):
+            fail(i)
+            return
     blink(i, color, item.get("select_delay", 8))
     # Usually one Select presses the pre-focused Play / Resume. Some apps need more
     # (profile picker, "Resume or Start Over"), so each item can override.
