@@ -3,8 +3,8 @@
 # file fetched over Wi-Fi, so you can change it without touching the device.
 #
 # settings.toml on the CIRCUITPY drive:
-#   CIRCUITPY_WIFI_SSID = "wifi-name"
-#   CIRCUITPY_WIFI_PASSWORD = "wifi-password"
+#   CIRCUITPY_WIFI_SSID_MIMI = "wifi-name"
+#   CIRCUITPY_WIFI_PASSWORD_MIMI = "wifi-password"
 #   CONFIG_URL = "https://raw.githubusercontent.com/<you>/<repo>/main/shows.json"
 #   NEOKEY_COUNT = 2        # 1 = one NeoKey 1x4; 2+ = several, via an I2C multiplexer
 #
@@ -85,7 +85,7 @@ def connect_wifi():
         return True
     try:
         wifi.radio.connect(
-            os.getenv("CIRCUITPY_WIFI_SSID"), os.getenv("CIRCUITPY_WIFI_PASSWORD")
+            os.getenv("CIRCUITPY_WIFI_SSID_MIMI"), os.getenv("CIRCUITPY_WIFI_PASSWORD_MIMI")
         )
         return True
     except Exception as e:

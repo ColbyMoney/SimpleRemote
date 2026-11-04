@@ -161,6 +161,26 @@ def do_key(i, config, roku):
         # One press toggles power. Nothing reads the TV's state: the Roku's own
         # "Power" key does the toggling. Set "key_name" on the Power key to change it.
         roku.post("/keypress/" + k.get("key_name", "Power"))
+    elif action == "tv_key":
+        # Sends a key straight to the Samsung TV (needs samsung_tv.py beside this file).
+        key = k.get("samsung_key", "KEY_VOLDOWN")
+        if roku.dry_run:
+            print("  [dry-run] Samsung %s -> %s" % (key, config.get("colby_samsung_tv_ip")))
+        else:
+            import os
+            import samsung_tv
+            port = int(config.get("colby_samsung_tv_port", 8002))
+            token_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "colby_samsung_tv_token.txt")
+            token = config.get("colby_samsung_tv_token")
+            if not token and port == 8002 and os.path.exists(token_file):
+                token = open(token_file).read().strip() or None
+            try:
+                new_token = samsung_tv.send_key(config["colby_samsung_tv_ip"], key, token=token, port=port)
+                if port == 8002 and new_token and new_token != token:
+                    open(token_file, "w").write(new_token)
+                print("  Samsung %s -> ok" % key)
+            except (OSError, ValueError, KeyError) as e:
+                print("  Samsung %s -> error: %s (key would flash red)" % (key, e))
     else:
         print("  unknown action %r (key would flash red)" % action)
 
@@ -180,16 +200,16 @@ def list_keys(config):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("config", help="path to shows.json")
-    p.add_argument("--ip", help="Roku IP (overrides roku_ip in the file)")
+    p.add_argument("--ip", help="Roku IP (overrides colby_roku_ip in the file)")
     p.add_argument("--press", type=int, help="press this key number once, then exit")
     p.add_argument("--dry-run", action="store_true", help="print requests only")
     a = p.parse_args()
 
     with open(a.config) as f:
         config = json.load(f)
-    ip = a.ip or config.get("roku_ip")
+    ip = a.ip or config.get("colby_roku_ip")
     if not ip:
-        sys.exit("No Roku IP: set roku_ip in the file or pass --ip")
+        sys.exit("No Roku IP: set colby_roku_ip in the file or pass --ip")
     roku = Roku(ip, a.dry_run)
 
     if a.press is not None:
