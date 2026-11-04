@@ -5,18 +5,18 @@
   "channel_settle_seconds": 2.5,
   "keys": [
     { "label": "Power", "action": "power", "color": "#FF0000" },
-    { "label": "Jazz", "action": "playpause", "color": "#FFFFFF" },
     { "label": "Channel Up", "action": "channel_up", "color": "#00C853" },
     { "label": "Channel Down", "action": "channel_down", "color": "#2979FF" },
+    { "label": "Jazz", "action": "none", "app": "spotify", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DXbITWG1ZJKYt", "type": "playlist", "color": "#FFFFFF", "select_delay": 10 },
 
-    { "label": "Yes (I'm still watching)", "action": "key", "key_name": "Select", "color": "#FFFFFF" },
-    { "label": "Game Show", "action": "key", "key_name": "Select", "color": "#FFFFFF" },
+    { "label": "OK (I'm still watching)", "action": "key", "key_name": "Select", "color": "#FFFFFF" },
     { "label": "Volume Up", "action": "key", "key_name": "VolumeUp", "color": "#FFB300" },
-    { "label": "Volume Down", "action": "key", "key_name": "VolumeDown", "color": "#FFB300" }
+    { "label": "Volume Down", "action": "key", "key_name": "VolumeDown", "color": "#FFB300" },
+    { "label": "Classical", "action": "none", "app": "spotify", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DWVFeEut75IAL", "type": "playlist", "color": "#FFFFFF", "select_delay": 10 }
   ],
   "channels": [
-    { "app": "youtube_tv", "content_name": "Fox 4 News", "content_id": "3", "type": "live", "color": "#FF0000", "select_delay": 15 },
     { "app": "youtube_tv", "content_name": "Game Show Network", "content_id": "105", "type": "live", "color": "#FF0000", "select_delay": 15 },
+    { "app": "youtube_tv", "content_name": "Fox 4 News", "content_id": "3", "type": "live", "color": "#FF0000", "select_delay": 15 },
     { "app": "youtube_tv", "content_name": "Magnolia Network", "content_id": "95", "type": "live", "color": "#FF0000", "select_delay": 15 },
     { "app": "youtube_tv", "content_name": "HGTV", "content_id": "96", "type": "live", "color": "#FF0000", "select_delay": 15 },
     { "app": "youtube_tv", "content_name": "Paramount", "content_id": "77", "type": "live", "color": "#FF0000", "select_delay": 15 },
@@ -24,6 +24,7 @@
     { "app": "youtube_tv", "content_name": "Hallmark Channel", "content_id": "67", "type": "live", "color": "#FF0000", "select_delay": 15 },
     { "app": "youtube_tv", "content_name": "Comedy.tv", "content_id": "61", "type": "live", "color": "#FF0000", "select_delay": 15 },
     { "app": "netflix", "content_name": "Inside the Mind of a Cat", "content_id": "81447086", "type": "movie", "color": "#C8A2C8", "select_delay": 10 },
+    { "app": "netflix", "content_name": "Remarkably Bright Creatures", "content_id": "81911351", "type": "movie", "color": "#0066FF", "select_delay": 10 },
     { "app": "netflix", "content_name": "Cat People", "content_id": "81173728", "type": "series", "color": "#C8A2C8", "select_delay": 10 },
     { "app": "netflix", "content_name": "The Hidden Lives of Pets", "content_id": "81318943", "type": "series", "color": "#FF00AA", "select_delay": 10 },
     { "app": "netflix", "content_name": "Say Yes to the Dress", "content_id": "70155605", "type": "series", "color": "#FF00AA", "select_delay": 10 },
@@ -31,9 +32,9 @@
     { "app": "netflix", "content_name": "Culinary Class Wars", "content_id": "81728365", "type": "series", "color": "#FF00AA", "select_delay": 10 },
     { "app": "netflix", "content_name": "Dallas Cowboys Cheerleaders", "content_id": "81685878", "type": "series", "color": "#FF00AA", "select_delay": 10 },
     { "app": "netflix", "content_name": "Seinfeld", "content_id": "70153373", "type": "series", "color": "#FFDD00", "select_delay": 10 },
-    { "app": "netflix", "content_name": "Remarkably Bright Creatures", "content_id": "81911351", "type": "movie", "color": "#0066FF", "select_delay": 10 },
+    { "app": "spotify", "content_name": "Rock and Roll", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DWWRktbhJiuqL", "type": "playlist", "color": "#FFDD00", "select_delay": 10 },
     { "app": "spotify", "content_name": "LoFi Beats", "content_id": "spotify%3Aplaylist%3A0vvXsWCC9xrXsKd4FyS8kM", "type": "playlist", "color": "#FFDD00", "select_delay": 10 },
-    { "app": "spotify", "content_name": "Jazz", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DXbITWG1ZJKYt", "type": "playlist", "color": "#FFDD00", "select_delay": 10 },
-    { "app": "spotify", "content_name": "Classical", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DWVFeEut75IAL", "type": "playlist", "color": "#FFDD00", "select_delay": 10 }
+    { "app": "spotify", "content_name": "Classical", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DWVFeEut75IAL", "type": "playlist", "color": "#FFDD00", "select_delay": 10 },
+    { "app": "spotify", "content_name": "Jazz", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DXbITWG1ZJKYt", "type": "playlist", "color": "#FFDD00", "select_delay": 10 }
   ]
 }

@@ -158,9 +158,9 @@ def do_key(i, config, roku):
     elif action == "playpause":
         roku.post("/keypress/Play")
     elif action == "power":
-        roku.post("/keypress/Home")
-        pause(1, roku.dry_run)
-        roku.post("/keypress/PowerOff")
+        # One press toggles power. Nothing reads the TV's state: the Roku's own
+        # "Power" key does the toggling. Set "key_name" on the Power key to change it.
+        roku.post("/keypress/" + k.get("key_name", "Power"))
     else:
         print("  unknown action %r (key would flash red)" % action)
 
