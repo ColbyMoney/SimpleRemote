@@ -16,6 +16,16 @@ network as the Roku, with "Control by mobile apps" enabled on the Roku.
 
 Note: on the real box, channel up/down waits a moment after the LAST press before
 playing, so quick presses just move through the list. Here each press plays at once.
+Only ONE Roku request is ever in flight at a time. A channel press that arrives while
+a request is still going out is IGNORED (never queued). A channel press that arrives
+between requests (for example while waiting for YouTube TV to open) is accepted and
+CANCELS the older channel change, so the two never mix their button presses.
+Other keys (volume, OK, power) wait their turn for the request slot.
+
+If a launch request gets no answer (timeout or connection error), the same content is
+launched again, up to 2 more times ("launch_retries" in the file changes that), for
+every app. A reply with an error status (like 404) is not retried: asking again
+cannot fix a wrong app id or link.
 
 Keys:
    0  power         Power
@@ -28,8 +38,10 @@ Keys:
    7  key           Volume Down
 """
 import argparse
+from contextlib import contextmanager
 import json
 import sys
+import threading
 import time
 import urllib.error
 import urllib.request
@@ -41,27 +53,70 @@ APP_IDS = {
     "spotify": 22297
 }
 channel_index = -1  # -1 = nothing played yet, same as the box
+CHANNEL_ACTIONS = ("channel_up", "channel_down", "launch", "netflix")
+http_lock = threading.Lock()   # held while a Roku request is in flight: one at a time
+state_lock = threading.Lock()  # protects generation and channel_index
+other_lock = threading.Lock()  # non-channel keys run one at a time, in the order pressed
+generation = 0                 # bumped by every accepted channel press; older ones cancel
+workers = []
+
+
+class Cancelled(Exception):
+    """A newer channel press replaced this channel change."""
+
+
+def stale(gen):
+    return gen is not None and gen != generation
 
 
 class Roku:
+    TIMEOUT = 6  # seconds to wait for the Roku to answer one request
+
     def __init__(self, ip, dry_run):
         self.ip = ip
         self.dry_run = dry_run
 
-    def post(self, path):
+    def _send(self, path, gen):
+        """One request. Returns "ok", "failed" (the Roku answered with an error),
+        or "noreply" (timeout or connection error, worth trying again)."""
         url = "http://%s:8060%s" % (self.ip, path)
-        if self.dry_run:
-            print("  [dry-run] POST", url)
-            return True
-        try:
-            req = urllib.request.Request(url, data=b"", method="POST")
-            with urllib.request.urlopen(req, timeout=6) as r:
-                ok = r.status in (200, 202, 204)
-            print("  POST %s -> %s" % (path, "ok" if ok else "failed"))
-            return ok
-        except (urllib.error.URLError, OSError) as e:
-            print("  POST %s -> error: %s" % (path, e))
-            return False
+        with http_lock:  # never two requests at once
+            if stale(gen):
+                raise Cancelled()
+            if self.dry_run:
+                print("  [dry-run] POST", url)
+                return "ok"
+            try:
+                req = urllib.request.Request(url, data=b"", method="POST")
+                with urllib.request.urlopen(req, timeout=self.TIMEOUT) as r:
+                    ok = r.status in (200, 202, 204)
+                print("  POST %s -> %s" % (path, "ok" if ok else "failed"))
+                return "ok" if ok else "failed"
+            except urllib.error.HTTPError as e:  # the Roku replied, with an error
+                print("  POST %s -> error: %s" % (path, e))
+                return "failed"
+            except (urllib.error.URLError, OSError) as e:  # timeout, unreachable, reset
+                print("  POST %s -> no reply: %s" % (path, e))
+                return "noreply"
+
+    def post(self, path, gen=None):
+        return self._send(path, gen) == "ok"
+
+    def launch(self, path, retries, gen=None):
+        """Launch content. If the Roku does not answer, send the same launch again, up
+        to `retries` more times. The request slot is free between tries, so a newer
+        channel press can still take over."""
+        for attempt in range(retries + 1):
+            result = self._send(path, gen)
+            if result == "ok":
+                return True
+            if result == "failed":
+                return False  # an error reply will not fix itself
+            if attempt < retries:
+                print("  no reply; launching the same content again (try %d of %d)"
+                      % (attempt + 2, retries + 1))
+                pause(0.5, self.dry_run, gen)
+        return False
 
     def apps(self):
         url = "http://%s:8060/query/apps" % self.ip
@@ -77,68 +132,77 @@ class Roku:
             print("  could not read app list:", e)
 
 
-def pause(seconds, dry_run):
+def pause(seconds, dry_run, gen=None):
+    if stale(gen):
+        raise Cancelled()
     if dry_run:
         print("  [dry-run] wait %ss" % seconds)
-    else:
-        print("  waiting %ss ..." % seconds)
-        time.sleep(seconds)
+        return
+    print("  waiting %ss ..." % seconds)
+    end = time.time() + seconds
+    while time.time() < end:  # wake often so a newer press can cancel us quickly
+        if stale(gen):
+            raise Cancelled()
+        time.sleep(min(0.05, max(0.0, end - time.time())))
 
 
-def launch_item(item, config, roku):
+def launch_item(item, config, roku, gen=None):
     app_id = item.get("app_id") or APP_IDS.get(item.get("app", "netflix"))
     if not app_id:
         print("  unknown app %r; add it to APP_IDS or set app_id" % item.get("app"))
         return
     content_id = item.get("content_id", "")
+    retries = int(config.get("launch_retries", 2))  # extra tries if the Roku does not answer
     if item.get("app") == "youtube_tv":
         path = "/launch/%s" % app_id
         if content_id:
             path += "?contentId=%s&mediaType=%s" % (content_id, item.get("type", "series"))
-        if not roku.post(path):
+        if not roku.launch(path, retries, gen):
             print("  launch failed (key would flash red)")
             return
-        pause(item.get("select_delay", 5), roku.dry_run)
+        pause(item.get("select_delay", 5), roku.dry_run, gen)
         try:
             downs = int(content_id)
         except (ValueError, TypeError):
             print("  youtube_tv needs content_id to be a number (key would flash red)")
             return
         gap = item.get("nav_delay", 0.25)
-        roku.post("/keypress/Right")
-        pause(item.get("guide_load_delay", 5), roku.dry_run)
+        roku.post("/keypress/Right", gen)
+        pause(item.get("guide_load_delay", 5), roku.dry_run, gen)
         for _ in range(downs):
-            roku.post("/keypress/Down")
-            pause(gap, roku.dry_run)
-        roku.post("/keypress/Select")
-        pause(gap, roku.dry_run)
+            roku.post("/keypress/Down", gen)
+            pause(gap, roku.dry_run, gen)
+        roku.post("/keypress/Select", gen)
+        pause(gap, roku.dry_run, gen)
     else:
         # Normal deep link. Put any needed URL encoding (like %3A) in content_id itself.
         path = "/launch/%s" % app_id
         if content_id:
             path += "?contentId=%s&mediaType=%s" % (content_id, item.get("type", "series"))
-        if not roku.post(path):
+        if not roku.launch(path, retries, gen):
             print("  launch failed (key would flash red)")
             return
 
 
-def change_channel(step, config, roku):
+def change_channel(step, config, roku, gen=None):
     global channel_index
     chans = config.get("channels", [])
     if not chans:
         print("  no channels in the file (key would flash red)")
         return
     n = len(chans)
-    if channel_index < 0:
-        channel_index = 0 if step > 0 else n - 1
-    else:
-        channel_index = (channel_index + step) % n
-    item = chans[channel_index]
-    print("  channel %d of %d: %s" % (channel_index + 1, n, item.get("content_name", "")))
-    launch_item(item, config, roku)
+    with state_lock:
+        if channel_index < 0:
+            channel_index = 0 if step > 0 else n - 1
+        else:
+            channel_index = (channel_index + step) % n
+        idx = channel_index
+    item = chans[idx]
+    print("  channel %d of %d: %s" % (idx + 1, n, item.get("content_name", "")))
+    launch_item(item, config, roku, gen)
 
 
-def do_key(i, config, roku):
+def do_key(i, config, roku, gen=None):
     keys = config.get("keys", [])
     if i < 0 or i >= len(keys):
         print("  no entry for key %d (that key would stay dark)" % i)
@@ -150,9 +214,9 @@ def do_key(i, config, roku):
     if action == "none":
         print("  empty slot, does nothing")
     elif action in ("channel_up", "channel_down"):
-        change_channel(1 if action == "channel_up" else -1, config, roku)
+        change_channel(1 if action == "channel_up" else -1, config, roku, gen)
     elif action in ("launch", "netflix"):
-        launch_item(k, config, roku)
+        launch_item(k, config, roku, gen)
     elif action == "key":
         if not k.get("key_name") or not roku.post("/keypress/" + k["key_name"]):
             print("  failed (key would flash red)")
@@ -186,6 +250,27 @@ def do_key(i, config, roku):
         print("  unknown action %r (key would flash red)" % action)
 
 
+@contextmanager
+def keyboard_mode():
+    """Mac/Linux: read one key at a time for the whole session (Windows needs nothing)."""
+    if not sys.stdin.isatty():
+        yield
+        return
+    try:
+        import termios
+        import tty
+    except ImportError:
+        yield
+        return
+    fd = sys.stdin.fileno()
+    old = termios.tcgetattr(fd)
+    try:
+        tty.setcbreak(fd)  # Ctrl-C still works
+        yield
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old)
+
+
 def read_key():
     """Wait for one keypress and return it, without needing Enter.
     Returns None when input is closed (end of piped input)."""
@@ -199,20 +284,46 @@ def read_key():
     try:
         import msvcrt  # Windows
     except ImportError:
-        import termios
-        import tty
-        fd = sys.stdin.fileno()
-        old = termios.tcgetattr(fd)
-        try:
-            tty.setcbreak(fd)  # one character at a time; Ctrl-C still works
-            return sys.stdin.read(1)
-        finally:
-            termios.tcsetattr(fd, termios.TCSADRAIN, old)
+        return sys.stdin.read(1)
     ch = msvcrt.getwch()
     if ch in ("\x00", "\xe0"):  # arrow / function key: swallow its second code
         msvcrt.getwch()
         return ""
     return ch
+
+
+def start_key(i, config, roku):
+    """Run a key press in the background so the keyboard stays responsive."""
+    global generation
+    keys = config.get("keys", [])
+    action = keys[i].get("action") if 0 <= i < len(keys) else None
+    gen = None
+    if action in CHANNEL_ACTIONS:
+        if http_lock.locked():  # a request is still going out: drop this press
+            print("Key %d ignored: a request is still in flight" % i)
+            return
+        with state_lock:
+            generation += 1  # cancels any older channel change still waiting between requests
+            gen = generation
+        lock = None
+    else:
+        lock = other_lock
+        lock.acquire()  # wait our turn; these are quick
+
+    def work():
+        try:
+            do_key(i, config, roku, gen)
+        except Cancelled:
+            print("  channel change replaced by a newer press")
+        except Exception as e:
+            print("  key %d crashed: %s" % (i, e))
+        finally:
+            if lock:
+                lock.release()
+
+    t = threading.Thread(target=work, daemon=True)
+    workers.append(t)
+    t.start()
 
 
 def list_keys(config):
@@ -249,22 +360,30 @@ def main():
     print("Roku at %s%s" % (ip, " (dry run)" if a.dry_run else ""))
     list_keys(config)
     print("Press a key number (0-9). a = apps, l = list, q = quit. No Enter needed.")
-    while True:
+    with keyboard_mode():
+        while True:
+            try:
+                ch = read_key()
+            except (KeyboardInterrupt, EOFError):
+                break
+            if ch is None or ch.lower() == "q" or ch in ("\x03", "\x04"):
+                break
+            ch = ch.lower()
+            if ch == "a":
+                roku.apps()
+            elif ch == "l":
+                list_keys(config)
+            elif ch.isdigit():
+                start_key(int(ch), config, roku)
+            elif ch.strip():
+                print("  not a command: %r" % ch)
+    if any(t.is_alive() for t in workers):
+        print("Finishing the key that is still running (Ctrl-C to stop now) ...")
         try:
-            ch = read_key()
-        except (KeyboardInterrupt, EOFError):
-            break
-        if ch is None or ch.lower() == "q" or ch in ("\x03", "\x04"):
-            break
-        ch = ch.lower()
-        if ch == "a":
-            roku.apps()
-        elif ch == "l":
-            list_keys(config)
-        elif ch.isdigit():
-            do_key(int(ch), config, roku)
-        elif ch.strip():
-            print("  not a command: %r" % ch)
+            for t in workers:
+                t.join()
+        except KeyboardInterrupt:
+            pass
 
 
 if __name__ == "__main__":
