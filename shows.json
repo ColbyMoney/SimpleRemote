@@ -1,149 +1,33 @@
 {
-  "roku_ip": "192.168.1.50",
+  "roku_ip": "192.168.1.201",
   "refresh_seconds": 120,
   "boot_seconds": 10,
+  "channel_settle_seconds": 2.5,
   "keys": [
-    {
-      "label": "Power",
-      "action": "power",
-      "color": "#FF0000"
-    },
-    {
-      "label": "Play / Pause",
-      "action": "playpause",
-      "color": "#FFFFFF"
-    },
-    {
-      "label": "Rewind (back ~10 sec)",
-      "action": "key",
-      "key_name": "InstantReplay",
-      "color": "#FFFFFF"
-    },
-    {
-      "label": "OK / Continue",
-      "action": "key",
-      "key_name": "Select",
-      "color": "#FFFFFF"
-    },
-    {
-      "slot": 1,
-      "content_name": "Bridgerton",
-      "action": "launch",
-      "app": "netflix",
-      "content_id": "80232398",
-      "type": "series",
-      "color": "#C8A2C8",
-      "select_delay": 10
-    },
-    {
-      "slot": 2,
-      "content_name": "New Girl",
-      "action": "launch",
-      "app": "hulu",
-      "content_id": "42850dbc-0f98-4d8a-a09a-3427ee8085e5",
-      "type": "series",
-      "color": "#1CE783",
-      "select_delay": 10
-    },
-    {
-      "slot": 3,
-      "content_name": "Remarkably Bright Creatures",
-      "action": "launch",
-      "app": "netflix",
-      "content_id": "81911351",
-      "type": "movie",
-      "color": "#0066FF",
-      "select_delay": 10
-    },
-    {
-      "slot": 4,
-      "content_name": "The Golden Girls",
-      "action": "launch",
-      "app": "hulu",
-      "content_id": "a6e5db1c-ab70-451d-8b8c-2fba9ea29248",
-      "type": "series",
-      "color": "#FF8800",
-      "select_delay": 10
-    },
-    {
-      "slot": 5,
-      "content_name": "Nobody Wants This",
-      "action": "launch",
-      "app": "netflix",
-      "content_id": "81591296",
-      "type": "series",
-      "color": "#FF00AA",
-      "select_delay": 10
-    },
-    {
-      "slot": 6,
-      "content_name": "Seinfeld",
-      "action": "launch",
-      "app": "netflix",
-      "content_id": "70153373",
-      "type": "series",
-      "color": "#FFDD00",
-      "select_delay": 10
-    },
-    {
-      "slot": 7,
-      "content_name": "(empty)",
-      "action": "none",
-      "app": "netflix",
-      "content_id": "",
-      "type": "series",
-      "color": "#00CED1",
-      "select_delay": 10
-    },
-    {
-      "slot": 8,
-      "content_name": "(empty)",
-      "action": "none",
-      "app": "netflix",
-      "content_id": "",
-      "type": "series",
-      "color": "#8A2BE2",
-      "select_delay": 10
-    },
-    {
-      "slot": 9,
-      "content_name": "(empty)",
-      "action": "none",
-      "app": "netflix",
-      "content_id": "",
-      "type": "series",
-      "color": "#7CFC00",
-      "select_delay": 10
-    },
-    {
-      "slot": 10,
-      "content_name": "(empty)",
-      "action": "none",
-      "app": "netflix",
-      "content_id": "",
-      "type": "series",
-      "color": "#FF7F50",
-      "select_delay": 10
-    },
-    {
-      "slot": 11,
-      "content_name": "(empty)",
-      "action": "none",
-      "app": "netflix",
-      "content_id": "",
-      "type": "series",
-      "color": "#00BFFF",
-      "select_delay": 10
-    },
-    {
-      "slot": 12,
-      "content_name": "(empty)",
-      "action": "none",
-      "app": "netflix",
-      "content_id": "",
-      "type": "series",
-      "color": "#D2B48C",
-      "select_delay": 10
-    }
+    { "label": "Power", "action": "power", "color": "#FF0000" },
+    { "label": "News", "action": "playpause", "color": "#FFFFFF" },
+    { "label": "Channel Up", "action": "channel_up", "color": "#00C853" },
+    { "label": "Channel Down", "action": "channel_down", "color": "#2979FF" },
+
+    { "label": "Yes (I'm still watching)", "action": "key", "key_name": "Select", "color": "#FFFFFF" },
+    { "label": "Game Show", "action": "key", "key_name": "Select", "color": "#FFFFFF" },
+    { "label": "Volume Up", "action": "key", "key_name": "VolumeUp", "color": "#FFB300" },
+    { "label": "Volume Down", "action": "key", "key_name": "VolumeDown", "color": "#FFB300" }
+  ],
+  "channels": [
+    { "app": "youtube_tv", "content_name": "Fox 4 News", "content_id": "3", "type": "live", "color": "#FF0000", "select_delay": 10 },
+    { "app": "youtube_tv", "content_name": "TBS", "content_id": "15", "type": "live", "color": "#FF0000", "select_delay": 10 },
+    { "app": "netflix", "content_name": "Inside the Mind of a Cat", "content_id": "81447086", "type": "movie", "color": "#C8A2C8", "select_delay": 10 },
+    { "app": "netflix", "content_name": "Cat People", "content_id": "81173728", "type": "series", "color": "#C8A2C8", "select_delay": 10 },
+    { "app": "netflix", "content_name": "The Hidden Lives of Pets", "content_id": "81318943", "type": "series", "color": "#FF00AA", "select_delay": 10 },
+    { "app": "netflix", "content_name": "Say Yes to the Dress", "content_id": "70155605", "type": "series", "color": "#FF00AA", "select_delay": 10 },
+    { "app": "netflix", "content_name": "Martha Cooks", "content_id": "82677245", "type": "series", "color": "#FF00AA", "select_delay": 10 },
+    { "app": "netflix", "content_name": "Culinary Class Wars", "content_id": "81728365", "type": "series", "color": "#FF00AA", "select_delay": 10 },
+    { "app": "netflix", "content_name": "Dallas Cowboys Cheerleaders", "content_id": "81685878", "type": "series", "color": "#FF00AA", "select_delay": 10 },
+    { "app": "netflix", "content_name": "Seinfeld", "content_id": "70153373", "type": "series", "color": "#FFDD00", "select_delay": 10 },
+    { "app": "netflix", "content_name": "Remarkably Bright Creatures", "content_id": "81911351", "type": "movie", "color": "#0066FF", "select_delay": 10 },
+    { "app": "spotify", "content_name": "LoFi Beats", "content_id": "spotify%3Aplaylist%3A0vvXsWCC9xrXsKd4FyS8kM", "type": "playlist", "color": "#FFDD00", "select_delay": 10 },
+    { "app": "spotify", "content_name": "Jazz", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DXbITWG1ZJKYt", "type": "playlist", "color": "#FFDD00", "select_delay": 10 },
+    { "app": "spotify", "content_name": "Classical", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DWVFeEut75IAL", "type": "playlist", "color": "#FFDD00", "select_delay": 10 }
   ]
 }
