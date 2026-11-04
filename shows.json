@@ -42,7 +42,9 @@
     { "app": "netflix", "content_name": "Culinary Class Wars", "content_id": "81728365", "type": "series", "color": "#FF00AA", "select_delay": 10 },
     { "app": "netflix", "content_name": "Dallas Cowboys Cheerleaders", "content_id": "81685878", "type": "series", "color": "#FF00AA", "select_delay": 10 },
     { "app": "netflix", "content_name": "Seinfeld", "content_id": "70153373", "type": "series", "color": "#FFDD00", "select_delay": 10 },
-    { "app": "spotify", "content_name": "Rock and Roll", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DWWRktbhJiuqL", "type": "playlist", "color": "#FFDD00", "select_delay": 10 },
+    { "app": "spotify", "content_name": "Oldies", "content_id": "spotify%3Aplaylist%3A45C4tlwjwZUUexyRBx0BpL", "type": "playlist", "color": "#FFDD00", "select_delay": 10 },
+    { "app": "spotify", "content_name": "EDM", "content_id": "spotify%3Aplaylist%3A4HGYWsi8h71NeCOA1DAkZx", "type": "playlist", "color": "#FFDD00", "select_delay": 10 },
+    { "app": "spotify", "content_name": "Rock", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DWWRktbhJiuqL", "type": "playlist", "color": "#FFDD00", "select_delay": 10 },
     { "app": "spotify", "content_name": "LoFi Beats", "content_id": "spotify%3Aplaylist%3A0vvXsWCC9xrXsKd4FyS8kM", "type": "playlist", "color": "#FFDD00", "select_delay": 10 },
     { "app": "spotify", "content_name": "Classical", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DWVFeEut75IAL", "type": "playlist", "color": "#FFDD00", "select_delay": 10 },
     { "app": "spotify", "content_name": "Jazz", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DXbITWG1ZJKYt", "type": "playlist", "color": "#FFDD00", "select_delay": 10 }

@@ -8,8 +8,9 @@ Usage:
   python colby_roku_test.py shows.json --press 2       # press key 2 once
   python colby_roku_test.py shows.json --dry-run       # print requests, send nothing
 
-Interactive commands: a key number, "apps" (list installed Roku apps and ids),
-"list" (show the key and channel tables), "q" (quit).
+Interactive mode works like the real remote: press a key number (0-9) and it fires
+at once, no Enter needed. Also: a = list installed Roku apps and ids,
+l = show the key and channel tables, q = quit.
 Needs only the Python standard library. Your computer must be on the same
 network as the Roku, with "Control by mobile apps" enabled on the Roku.
 
@@ -185,6 +186,35 @@ def do_key(i, config, roku):
         print("  unknown action %r (key would flash red)" % action)
 
 
+def read_key():
+    """Wait for one keypress and return it, without needing Enter.
+    Returns None when input is closed (end of piped input)."""
+    if not sys.stdin.isatty():
+        while True:  # piped input: take the next non-blank character
+            ch = sys.stdin.read(1)
+            if not ch:
+                return None
+            if not ch.isspace():
+                return ch
+    try:
+        import msvcrt  # Windows
+    except ImportError:
+        import termios
+        import tty
+        fd = sys.stdin.fileno()
+        old = termios.tcgetattr(fd)
+        try:
+            tty.setcbreak(fd)  # one character at a time; Ctrl-C still works
+            return sys.stdin.read(1)
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old)
+    ch = msvcrt.getwch()
+    if ch in ("\x00", "\xe0"):  # arrow / function key: swallow its second code
+        msvcrt.getwch()
+        return ""
+    return ch
+
+
 def list_keys(config):
     print("Keys:")
     for i, k in enumerate(config.get("keys", [])):
@@ -218,21 +248,23 @@ def main():
 
     print("Roku at %s%s" % (ip, " (dry run)" if a.dry_run else ""))
     list_keys(config)
+    print("Press a key number (0-9). a = apps, l = list, q = quit. No Enter needed.")
     while True:
         try:
-            cmd = input("key number / apps / list / q > ").strip().lower()
-        except EOFError:
+            ch = read_key()
+        except (KeyboardInterrupt, EOFError):
             break
-        if cmd in ("q", "quit", "exit"):
+        if ch is None or ch.lower() == "q" or ch in ("\x03", "\x04"):
             break
-        elif cmd == "apps":
+        ch = ch.lower()
+        if ch == "a":
             roku.apps()
-        elif cmd == "list":
+        elif ch == "l":
             list_keys(config)
-        elif cmd.isdigit():
-            do_key(int(cmd), config, roku)
-        elif cmd:
-            print("  not a command")
+        elif ch.isdigit():
+            do_key(int(ch), config, roku)
+        elif ch.strip():
+            print("  not a command: %r" % ch)
 
 
 if __name__ == "__main__":
