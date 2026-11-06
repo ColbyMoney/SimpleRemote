@@ -48,9 +48,22 @@ import urllib.request
 import xml.etree.ElementTree as ET
 
 APP_IDS = {
-    "youtube_tv": 195316,
+    "live_tv_guide": 683311,
     "netflix": 12,
-    "spotify": 22297
+    "prime_video": 13,
+    "hbo_max": 61322,
+    "hulu": 2285,
+    "disney_plus": 291097,
+    "roku_channel": 151908,
+    "kids_and_family": 606242,
+    "peacock": 593099,
+    "paramount_plus": 31440,
+    "frndly_tv": 298229,
+    "backdrops": 773622,
+    "spotify": 22297,
+    "youtube_tv": 195316,
+    "apple_tv": 551012,
+    "youtube": 837
 }
 channel_index = -1  # -1 = nothing played yet, same as the box
 CHANNEL_ACTIONS = ("channel_up", "channel_down", "launch", "netflix")
@@ -70,7 +83,7 @@ def stale(gen):
 
 
 class Roku:
-    TIMEOUT = 6  # seconds to wait for the Roku to answer one request
+    TIMEOUT = 5  # seconds to wait for the Roku to answer one request
 
     def __init__(self, ip, dry_run):
         self.ip = ip
@@ -115,7 +128,7 @@ class Roku:
             if attempt < retries:
                 print("  no reply; launching the same content again (try %d of %d)"
                       % (attempt + 2, retries + 1))
-                pause(0.5, self.dry_run, gen)
+                pause(5, self.dry_run, gen)
         return False
 
     def apps(self):
@@ -160,7 +173,7 @@ def launch_item(item, config, roku, gen=None):
         if not roku.launch(path, retries, gen):
             print("  launch failed (key would flash red)")
             return
-        pause(item.get("select_delay", 5), roku.dry_run, gen)
+        pause(item.get("select_delay", 15), roku.dry_run, gen)
         try:
             downs = int(content_id)
         except (ValueError, TypeError):
@@ -215,7 +228,7 @@ def do_key(i, config, roku, gen=None):
         print("  empty slot, does nothing")
     elif action in ("channel_up", "channel_down"):
         change_channel(1 if action == "channel_up" else -1, config, roku, gen)
-    elif action in ("launch", "netflix"):
+    elif action in ("launch", "youtube_tv"):
         launch_item(k, config, roku, gen)
     elif action == "key":
         if not k.get("key_name") or not roku.post("/keypress/" + k["key_name"]):

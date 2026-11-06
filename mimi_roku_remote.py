@@ -28,9 +28,22 @@ STATE_FILE = "/state.json"
 # Roku app (channel) ids. Anything not listed can be set per item with "app_id".
 # Check your own Roku with: http://<roku-ip>:8060/query/apps
 APP_IDS = {
-    "youtube_tv": 195316,
+    "live_tv_guide": 683311,
     "netflix": 12,
-    "spotify": 22297
+    "prime_video": 13,
+    "hbo_max": 61322,
+    "hulu": 2285,
+    "disney_plus": 291097,
+    "roku_channel": 151908,
+    "kids_and_family": 606242,
+    "peacock": 593099,
+    "paramount_plus": 31440,
+    "frndly_tv": 298229,
+    "backdrops": 773622,
+    "spotify": 22297,
+    "youtube_tv": 195316,
+    "apple_tv": 551012,
+    "youtube": 837
 }
 DEFAULT_REFRESH_SECONDS = 120
 DEFAULT_SETTLE_SECONDS = 2.5  # wait this long after the last channel press, then play
