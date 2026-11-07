@@ -13,8 +13,8 @@
   "keys": [
     { "label": "Power", "action": "power", "color": "#FF0000" },
     { "label": "None", "action": "none" },
-    { "label": "Channel Up", "action": "channel_up", "color": "#00C853" },
-    { "label": "Channel Down", "action": "channel_down", "color": "#2979FF" }
+    { "label": "Channel Up", "action": "channel_up", "color": "#0000FF" },
+    { "label": "Channel Down", "action": "channel_down", "color": "#0000FF" }
   ],
   "channels": [
     { "app": "youtube_tv", "content_name": "Fox 4", "content_id": "2", "type": "live" },
