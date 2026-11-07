@@ -1,6 +1,6 @@
 # SimpleRemote
-Powers a custom made roku remote for my grandma to enjoy her favorite shows and music without navigating any confusing UI menus.
-Only 4 remote buttons: Power On/Off, OK, Channel Up, and Channel Down.
+I built and coded a custom remote for my grandma to enjoy her favorite shows and music without navigating any confusing UI menus.  
+There are only 4 buttons on the remote: Power On/Off, OK, Channel Up, and Channel Down.  
 Roku deeplink functionality and button script sequences are harnessed to set a hardcoded list of "channels" that let grandma navigate her favorite shows across multiple streaming services (Youtube, YoutubeTV, Spotify, Netflix, Disney+, and Hulu) using only channel up and channel down buttons.
 I can update her hardcoded channel list remotely (pun intended) by pushing changes to the channels list in the shows.json file. Her remote polls for updates to this every 60 seconds.
 
