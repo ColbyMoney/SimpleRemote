@@ -14,7 +14,7 @@ I can update her hardcoded channel list remotely (pun intended) by pushing chang
 | 2 | YouTube TV | Fox News |
 | 3 | YouTube TV | Game Show Network |
 | 4 | YouTube TV | HGTV (House Shows) |
-| 5 | YouTube TV / YouTube | Kansas City Chiefs: Watch the game on gameday and "Kansas City Chiefs: The Franchise" Youtube playlist on other days. I set the config file for this manually before and after games. |
+| 5 | YouTube TV / YouTube | Kansas City Chiefs: Watch the Chiefs game on gameday and "Kansas City Chiefs: The Franchise" Youtube playlist on other days. I update the config file manually before and after games to support this. |
 | 6 | Netflix | Inside the Mind of a Cat |
 | 7 | Netflix | Remarkably Bright Creatures |
 | 8 | Netflix | Seinfeld |
