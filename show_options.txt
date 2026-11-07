@@ -1,4 +1,9 @@
 NOTE: FOR YOUTUBE_TV CONTENT, UPDATE THE CHANNEL NUMBER!
+KANSAS CITY CHIEFS YOUTUBE AND GAMEDAY
+{ "app": "youtube_tv", "content_name": "Kansas City Chiefs", "content_id": "<GAMEDAY CHANNEL NUMBER>", "type": "live" },
+{ "app": "youtube", "content_name": "Kansas City Chiefs", "content_id": "%26list%3DPLZVqG621ZcOs", "type": "series" },
+
+EVERYTHING ELSE
 { "app": "youtube_tv", "content_name": "Game Show Network", "content_id": "2", "type": "live" },
 { "app": "youtube_tv", "content_name": "Fox", "content_id": "3", "type": "live" },
 { "app": "youtube_tv", "content_name": "ABC", "content_id": "4", "type": "live" },
