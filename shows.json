@@ -1,6 +1,6 @@
 {
-  "mimi_roku_ip": "192.168.1.25",
-  "mimi_samsung_tv_ip": "192.168.1.1",
+  "mimi_roku_ip": "192.168.86.25",
+  "mimi_samsung_tv_ip": "192.168.86.1",
   "mimi_samsung_tv_port": 8002,
   "mimi_samsung_tv_token": "17172508",
   "colby_roku_ip": "192.168.1.201",
