@@ -12,7 +12,7 @@
   "channel_settle_seconds": 2.5,
   "keys": [
     { "label": "Power", "action": "power", "color": "#FF0000" },
-    { "label": "None", "action": "none" },
+    { "label": "OK", "action": "key", "key_name": "Select", "color": "#00FF00"},
     { "label": "Channel Up", "action": "channel_up", "color": "#0000FF" },
     { "label": "Channel Down", "action": "channel_down", "color": "#0000FF" }
   ],
