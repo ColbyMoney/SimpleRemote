@@ -7,19 +7,14 @@
   "colby_samsung_tv_ip": "192.168.1.36",
   "colby_samsung_tv_port": 8002,
   "colby_samsung_tv_token": "17172508",
-  "refresh_seconds": 120,
+  "refresh_seconds": 60,
   "boot_seconds": 10,
   "channel_settle_seconds": 2.5,
   "keys": [
     { "label": "Power", "action": "power", "color": "#FF0000" },
+    { "label": "None", "action": "none" },
     { "label": "Channel Up", "action": "channel_up", "color": "#00C853" },
-    { "label": "Channel Down", "action": "channel_down", "color": "#2979FF" },
-    { "label": "Jazz", "action": "none", "app": "spotify", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DXbITWG1ZJKYt", "type": "playlist" },
-
-    { "label": "OK (I'm still watching)", "action": "key", "key_name": "Select", "color": "#FFFFFF" },
-    { "label": "Volume Up", "action": "tv_key", "samsung_key": "KEY_VOLUP",   "color": "#FFB300" },
-    { "label": "Volume Down", "action": "tv_key", "samsung_key": "KEY_VOLDOWN", "color": "#FFB300" },
-    { "label": "Classical", "action": "none", "app": "spotify", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DWVFeEut75IAL", "type": "playlist" }
+    { "label": "Channel Down", "action": "channel_down", "color": "#2979FF" }
   ],
   "channels": [
     { "app": "youtube_tv", "content_name": "Fox 4", "content_id": "2", "type": "live" },
@@ -28,14 +23,19 @@
     { "app": "youtube_tv", "content_name": "HGTV (House Shows)", "content_id": "5", "type": "live" },
     { "app": "netflix", "content_name": "Inside the Mind of a Cat", "content_id": "81447086", "type": "movie" },
     { "app": "netflix", "content_name": "Remarkably Bright Creatures", "content_id": "81911351", "type": "movie" },
-    { "app": "netflix", "content_name": "Cat People", "content_id": "81173728", "type": "series" },
     { "app": "netflix", "content_name": "Seinfeld", "content_id": "70153373", "type": "series" },
+    { "app": "hulu", "content_name": "The Golden Girls", "content_id": "a6e5db1c-ab70-451d-8b8c-2fba9ea29248", "type": "series" },
+    { "app": "hulu", "content_name": "Hell's Kitchen", "content_id": "4f31f13a-d60c-4c90-b8e5-397ea49d08db", "type": "series" },
+    { "app": "hulu", "content_name": "Dancing with the Stars", "content_id": "7d918be0-4130-4551-aab8-c7dcae85d35f", "type": "series" },
+    { "app": "disney_plus", "content_name": "The Simpsons", "content_id": "cac75c8f-a9e2-4d95-ac73-1cf1cc7b9568", "type": "series" },
+    { "app": "disney_plus", "content_name": "America's Funniest Home Videos", "content_id": "e802641a-22bc-4496-b1fa-5f26422df0b4", "type": "series" },
+    { "app": "spotify", "content_name": "Modern Pop Hits", "content_id": "spotify%3Aplaylist%3A1u0mLKIBM5y7cDvLPp1jTN", "type": "playlist" },
     { "app": "spotify", "content_name": "70s, 80s, and 90s", "content_id": "spotify%3Aplaylist%3A45C4tlwjwZUUexyRBx0BpL", "type": "playlist" },
     { "app": "spotify", "content_name": "Electronic Dance Music", "content_id": "spotify%3Aplaylist%3A4HGYWsi8h71NeCOA1DAkZx", "type": "playlist" },
     { "app": "spotify", "content_name": "Rock and Roll", "content_id": "spotify%3Aplaylist%3A1ti3v0lLrJ4KhSTuxt4loZ", "type": "playlist" },
     { "app": "spotify", "content_name": "Relaxing Beats", "content_id": "spotify%3Aplaylist%3A0vvXsWCC9xrXsKd4FyS8kM", "type": "playlist" },
     { "app": "spotify", "content_name": "40s and 50s", "content_id": "spotify%3Aplaylist%3A2TJuDLrf2SsRIIVK5hrPV0", "type": "playlist" },
-    { "app": "spotify", "content_name": "Classical", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DWVFeEut75IAL", "type": "playlist" },
-    { "app": "spotify", "content_name": "Jazz", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DXbITWG1ZJKYt", "type": "playlist" }
+    { "app": "spotify", "content_name": "Classical", "content_id": "spotify%3Aplaylist%3A5hHtMd5bUJfN6cpjWYOu88", "type": "playlist" },
+    { "app": "spotify", "content_name": "Jazz", "content_id": "spotify%3Aplaylist%3A6ylvGA8NeX2CuaeGtwHWDJ", "type": "playlist" }
   ]
 }

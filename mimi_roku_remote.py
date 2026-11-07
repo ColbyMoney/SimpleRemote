@@ -45,7 +45,7 @@ APP_IDS = {
     "apple_tv": 551012,
     "youtube": 837
 }
-DEFAULT_REFRESH_SECONDS = 120
+DEFAULT_REFRESH_SECONDS = 60
 DEFAULT_SETTLE_SECONDS = 2.5  # wait this long after the last channel press, then play
 
 # ---------- hardware ----------
