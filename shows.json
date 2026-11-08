@@ -10,6 +10,11 @@
   "refresh_seconds": 60,
   "boot_seconds": 10,
   "channel_settle_seconds": 2.5,
+  "youtube_tv_boot_delay": 10,
+  "youtube_tv_guide_load_delay": 5,
+  "nav_delay": 0.5,
+  "launch_retries": 2,
+  "retry_delay": 2,
   "keys": [
     { "label": "Power", "action": "power", "color": "#FF0000" },
     { "label": "OK", "action": "key", "key_name": "Select", "color": "#00FF00"},

@@ -115,7 +115,7 @@ class Roku:
     def post(self, path, gen=None):
         return self._send(path, gen) == "ok"
 
-    def launch(self, path, retries, gen=None):
+    def launch(self, path, config, retries, gen=None):
         """Launch content. If the Roku does not answer, send the same launch again, up
         to `retries` more times. The request slot is free between tries, so a newer
         channel press can still take over."""
@@ -173,15 +173,15 @@ def launch_item(item, config, roku, gen=None):
         if not roku.launch(path, retries, gen):
             print("  launch failed (key would flash red)")
             return
-        pause(item.get("select_delay", 15), roku.dry_run, gen)
+        pause(config.get("youtube_tv_boot_delay", 10), roku.dry_run, gen)
         try:
             downs = int(content_id)
         except (ValueError, TypeError):
             print("  youtube_tv needs content_id to be a number (key would flash red)")
             return
-        gap = item.get("nav_delay", 0.25)
+        gap = config.get("nav_delay", 0.25)
         roku.post("/keypress/Right", gen)
-        pause(item.get("guide_load_delay", 5), roku.dry_run, gen)
+        pause(config.get("youtube_tv_guide_load_delay", 5), roku.dry_run, gen)
         for _ in range(downs):
             roku.post("/keypress/Down", gen)
             pause(gap, roku.dry_run, gen)

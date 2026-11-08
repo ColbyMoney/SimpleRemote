@@ -242,13 +242,13 @@ def launch_item(i, item, keep_lit=False):
         if not roku_post("/launch/%s" % app_id):
             fail(i)
             return
-        blink(i, color, item.get("select_delay", 8))
+        blink(i, color, item.get("youtube_tv_boot_delay", 8))
         try:
             downs = int(content_id)
         except (ValueError, TypeError):
             fail(i)
             return
-        gap = item.get("nav_delay", 0.6)
+        gap = item.get("nav_delay", 0.5)
         roku_post("/keypress/Right")
         time.sleep(gap)
         for _ in range(downs):
@@ -264,7 +264,7 @@ def launch_item(i, item, keep_lit=False):
         if not roku_post(path):
             fail(i)
             return
-    blink(i, color, item.get("select_delay", 8))
+    blink(i, color, item.get("youtube_tv_boot_delay", 8))
     # Usually one Select presses the pre-focused Play / Resume. Some apps need more
     # (profile picker, "Resume or Start Over"), so each item can override.
     for key_name in item.get("post_keys", ["Select"]):
