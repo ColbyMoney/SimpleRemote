@@ -54,7 +54,7 @@ APP_IDS = {
     "youtube": 837
 }
 DEFAULT_REFRESH_SECONDS = 60
-DEFAULT_SETTLE_SECONDS = 2.5  # wait this long after the last channel press, then play
+DEFAULT_SETTLE_SECONDS = 0.0  # wait this long after the last channel press, then play
 
 # ---------- hardware ----------
 try:

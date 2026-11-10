@@ -1,29 +1,3 @@
-# Grandma's TV box: Wi-Fi CircuitPython board + one Adafruit NeoKey 1x4 pad (STEMMA QT)
-# Channel up/down flips through a list of shows; everything is set in a small JSON
-# file fetched over Wi-Fi, so you can change it without touching the device.
-#
-# One board, several setups: list each Wi-Fi network with its own config URL.
-# The board joins whichever listed network is in range and loads that network's JSON.
-#
-# settings.toml on the CIRCUITPY drive:
-#   WIFI_SSID_1 = "home-wifi-name"
-#   WIFI_PASSWORD_1 = "home-wifi-password"
-#   CONFIG_URL_1 = "https://raw.githubusercontent.com/<you>/<repo>/main/shows.json"
-#   PROFILE_NAME_1 = "colby"      # reads "colby_roku_ip" from the JSON
-#   WIFI_SSID_2 = "grandmas-wifi-name"
-#   WIFI_PASSWORD_2 = "grandmas-wifi-password"
-#   CONFIG_URL_2 = "https://raw.githubusercontent.com/<you>/<repo>/main/shows.json"
-#   PROFILE_NAME_2 = "mimi"       # reads "mimi_roku_ip" from the JSON
-#   (up to _3 as well). One shared JSON works: only the "<name>_roku_ip" differs.
-#   If PROFILE_NAME_n is left out, a plain "roku_ip" in the JSON is used.
-#
-# Libraries (Adafruit bundle) in /lib:
-#   adafruit_neokey, adafruit_seesaw, adafruit_requests,
-#   adafruit_connection_manager, adafruit_bus_device, neopixel
-#
-# Key layout (set in the JSON "keys" list, slot 0-3 left to right), for example:
-#   Power, Channel down, Channel up, OK ("action": "key", "key_name": "Select")
-
 import os
 import time
 import json
@@ -57,7 +31,7 @@ APP_IDS = {
     "youtube": 837
 }
 DEFAULT_REFRESH_SECONDS = 60
-DEFAULT_SETTLE_SECONDS = 2.5  # wait this long after the last channel press, then play
+DEFAULT_SETTLE_SECONDS = 0.0 # wait this long after the last channel press, then play
 
 # ---------- hardware ----------
 try:
@@ -291,16 +265,15 @@ def launch_item(i, item, keep_lit=False):
         fail(i)
         return
     content_id = item.get("content_id", "")
+    path = "/launch/%s" % app_id
+    if content_id:
+        path += "?contentId=%s&mediaType=%s" % (content_id, item.get("type", "series"))
     set_key(i, color)
-    # Wake the Roku (and the TV, if HDMI-CEC / Anynet+ is on), then launch.
-    roku_post("/keypress/PowerOn")
-    blink(i, color, config.get("boot_seconds", 6))
     if item.get("app") == "youtube_tv":
-        # No deep link: open the app, press Right once, then Down content_id times, then select the channel
-        if not roku_post("/launch/%s" % app_id):
+        if not roku_post(path):
             fail(i)
             return
-        blink(i, color, item.get("youtube_tv_boot_delay", 8))
+        blink(i, color, item.get("youtube_tv_boot_delay", 11))
         try:
             downs = int(content_id)
         except (ValueError, TypeError):
@@ -308,26 +281,16 @@ def launch_item(i, item, keep_lit=False):
             return
         gap = item.get("nav_delay", 0.5)
         roku_post("/keypress/Right")
-        time.sleep(gap)
+        blink(i, color, item.get("youtube_tv_guide_load_delay", 4))
         for _ in range(downs):
             roku_post("/keypress/Down")
             time.sleep(gap)
         roku_post("/keypress/Select")
         time.sleep(gap)
     else:
-        # Normal deep link. Put any needed URL encoding (like %3A) in content_id itself.
-        path = "/launch/%s" % app_id
-        if content_id:
-            path += "?contentId=%s&mediaType=%s" % (content_id, item.get("type", "series"))
         if not roku_post(path):
             fail(i)
             return
-    blink(i, color, item.get("youtube_tv_boot_delay", 8))
-    # Usually one Select presses the pre-focused Play / Resume. Some apps need more
-    # (profile picker, "Resume or Start Over"), so each item can override.
-    for key_name in item.get("post_keys", ["Select"]):
-        roku_post("/keypress/" + key_name)
-        time.sleep(1.5)
     apply_idle_colors()
     if keep_lit:
         set_key(i, color)
@@ -376,20 +339,18 @@ def do_key(i):
         key_name = k.get("key_name", "")
         if not key_name or not roku_post("/keypress/" + key_name):
             fail(i)
-        time.sleep(0.4)
+        time.sleep(0.2)
         apply_idle_colors()
     elif action == "playpause":
         if not roku_post("/keypress/Play"):
             fail(i)
-        time.sleep(0.4)
+        time.sleep(0.2)
         apply_idle_colors()
     elif action == "power":
         state["pending_at"] = None  # cancel any channel waiting to start
-        roku_post("/keypress/Home")
-        time.sleep(1)
-        if not roku_post("/keypress/PowerOff"):  # sleeps the Roku; CEC turns the TV off
+        if not roku_post("/keypress/Power"):  # toggles Roku/TV power via CEC
             fail(i)
-        time.sleep(0.4)
+        time.sleep(0.2)
         apply_idle_colors()
     else:
         fail(i)
