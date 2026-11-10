@@ -378,7 +378,7 @@ while True:
             launch_item(state["pending_key"], chans[state["channel"]])
 
     refresh = config.get("refresh_seconds", DEFAULT_REFRESH_SECONDS)
-    if time.monotonic() - last_refresh > refresh and state["pending_at"] is None:
+    if time.monotonic() - last_refresh > refresh:
         last_refresh = time.monotonic()
         new = fetch_config()
         if new and new != config:
