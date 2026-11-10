@@ -34,7 +34,7 @@
     { "app": "hulu", "content_name": "Hell's Kitchen", "content_id": "4f31f13a-d60c-4c90-b8e5-397ea49d08db", "type": "series" },
     { "app": "hulu", "content_name": "Dancing with the Stars", "content_id": "7d918be0-4130-4551-aab8-c7dcae85d35f", "type": "series" },
     { "app": "disney_plus", "content_name": "America's Funniest Home Videos", "content_id": "e802641a-22bc-4496-b1fa-5f26422df0b4", "type": "series" },
-    { "app": "spotify", "content_name": "Modern Pop Hits", "content_id": "spotify%3Aplaylist%3A1u0mLKIBM5y7cDvLPp1jTN", "type": "playlist" },
+    { "app": "spotify", "content_name": "Chris Connor", "content_id": "spotify%3Aplaylist%3A37i9dQZF1DZ06evO3rpqST", "type": "playlist" },
     { "app": "spotify", "content_name": "70s, 80s, and 90s", "content_id": "spotify%3Aplaylist%3A45C4tlwjwZUUexyRBx0BpL", "type": "playlist" },
     { "app": "spotify", "content_name": "Electronic Dance Music", "content_id": "spotify%3Aplaylist%3A4HGYWsi8h71NeCOA1DAkZx", "type": "playlist" },
     { "app": "spotify", "content_name": "Rock and Roll", "content_id": "spotify%3Aplaylist%3A1ti3v0lLrJ4KhSTuxt4loZ", "type": "playlist" },
