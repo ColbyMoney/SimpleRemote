@@ -1,12 +1,12 @@
 {
   "mimi_roku_ip": "192.168.86.25",
-  "mimi_samsung_tv_ip": "192.168.86.1",
-  "mimi_samsung_tv_port": 8002,
-  "mimi_samsung_tv_token": "17172508",
+  "mimi_samsung_tv_ip": "",
+  "mimi_samsung_tv_port": 0,
+  "mimi_samsung_tv_token": "",
   "colby_roku_ip": "192.168.1.201",
-  "colby_samsung_tv_ip": "192.168.1.36",
-  "colby_samsung_tv_port": 8002,
-  "colby_samsung_tv_token": "17172508",
+  "colby_samsung_tv_ip": "",
+  "colby_samsung_tv_port": 0,
+  "colby_samsung_tv_token": "",
   "refresh_seconds": 60,
   "boot_seconds": 10,
   "channel_settle_seconds": 2.5,
@@ -18,8 +18,8 @@
   "keys": [
     { "label": "Power", "action": "power", "color": "#FF0000" },
     { "label": "OK", "action": "key", "key_name": "Select", "color": "#00FF00"},
-    { "label": "Channel Up", "action": "channel_up", "color": "#0000FF" },
-    { "label": "Channel Down", "action": "channel_down", "color": "#0000FF" }
+    { "label": "Channel Up", "action": "channel_down", "color": "#0000FF" },
+    { "label": "Channel Down", "action": "channel_up", "color": "#0000FF" }
   ],
   "channels": [
     { "app": "youtube_tv", "content_name": "Fox 4", "content_id": "2", "type": "live" },
